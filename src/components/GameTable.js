@@ -96,6 +96,7 @@ function GameTable({ name }) {
   const [flipped, setFlipped] = useState([]);
   const [solved, setSolved] = useState([]);
   const [final, setFinal] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   // Animation
   const refAnimationInstance = useRef(null);
@@ -154,6 +155,7 @@ function GameTable({ name }) {
     );
 
     setFlipped([]);
+    setDisabled(false);
   };
 
   const handleClick = (i) => {
@@ -170,6 +172,7 @@ function GameTable({ name }) {
     if (flipped.length === 0) {
       setFlipped([i]);
     } else {
+      setDisabled(true);
       if (isMatch(i)) {
         setSolved([...solved, flipped[0], i]);
         resetCards();
@@ -221,6 +224,7 @@ function GameTable({ name }) {
           return card;
         })
       );
+      setDisabled(false);
     }
   }, [solved]);
 
@@ -258,7 +262,7 @@ function GameTable({ name }) {
               />
             ) : (
               <div
-                className="card cursor-pointer hover:border-8 rounded-3xl border-green-500"
+                className={`card cursor-pointer hover:border-8 rounded-3xl border-green-500 ${ disabled ? 'pointer-events-none' : '' } }`}
                 onClick={() => { handleClick(index); }}
                 key={index}
               >
