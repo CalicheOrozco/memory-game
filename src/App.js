@@ -14,7 +14,6 @@ function App() {
 
   const onSubmit = (data) => {
     setName(data.name);
-    console.log(name);
   };
   return (
     <div className="App bg-gradient-to-r from-[#005B40] to-[#00A37C] max-w-full min-h-screen">
