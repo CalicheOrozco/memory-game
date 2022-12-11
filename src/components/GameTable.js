@@ -242,8 +242,8 @@ function GameTable({ name }) {
       )}
 
       <div className="flex justify-around pt-5">
-        <h1 className="text-xl  font-bold text-white">{`Player: ${name}`}</h1>
-        <h1 className="text-xl  font-bold text-white">{`Cards found: ${ solved.length / 2 }/9`}</h1>
+        <h1 className="text-xl capitalize font-bold text-white">{`Player: ${name}`}</h1>
+        <h1 className="text-xl font-bold text-white">{`Cards found: ${ solved.length / 2 }/9`}</h1>
       </div>
       {deck ? (
         <div className="flex flex-wrap gap-3 justify-center py-5 shadow-2xl ">
