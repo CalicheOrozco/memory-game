@@ -210,9 +210,11 @@ function GameTable({ name }) {
     }
 
     if (solved.length > 0 && solved.length < 18) {
+      setDisabled(true);
       startAnimation();
       setTimeout(() => {
         stopAnimation();
+        setDisabled(false);
       }, 2000);
       setDeck((deck) =>
         deck.map((card) => {
@@ -224,7 +226,7 @@ function GameTable({ name }) {
           return card;
         })
       );
-      setDisabled(false);
+      
     }
   }, [solved]);
 
