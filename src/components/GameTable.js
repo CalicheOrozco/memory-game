@@ -252,7 +252,7 @@ function GameTable({ name }) {
         <h1 className="text-xl font-bold text-white">{`Cards found: ${ solved.length / 2 }/9`}</h1>
       </div>
       {deck ? (
-        <div className="flex flex-wrap gap-3 justify-center py-5">
+        <div className="flex flex-wrap gap-3 gap-y-10 gap justify-center py-5">
           <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
           {deck.map((card, index) =>
             card.flipped ? (
@@ -264,7 +264,7 @@ function GameTable({ name }) {
               />
             ) : (
               <div
-                className={`card cursor-pointer hover:border-8 rounded-3xl border-green-500 ${ disabled ? 'pointer-events-none' : '' } }`}
+                className={`card cursor-pointer ${ disabled ? 'pointer-events-none' : '' } }`}
                 onClick={() => { handleClick(index); }}
                 key={index}
               >

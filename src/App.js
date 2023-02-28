@@ -16,7 +16,7 @@ function App() {
     setName(data.name);
   };
   return (
-    <div className="App bg-gradient-to-r from-[#005B40] to-[#00A37C] max-w-full min-h-screen">
+    <div className="App bg-gradient-to-r from-[#005B40] to-[#00A37C] max-w-full min-h-screen px-3">
       <h1 className="text-4xl text-center py-5 text-white font-bold">Memory Game</h1>
 
       {name === "" ? (
