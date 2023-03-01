@@ -62,7 +62,6 @@ export default function Confetti({ start }) {
   }, [intervalId]);
 
   useEffect(() => {
-    console.log("start", start);
     if (start === true) {
       startAnimation();
     } else {
