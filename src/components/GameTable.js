@@ -213,6 +213,7 @@ function GameTable({ name }) {
                   id={index}
                   key={index}
                   name={card.name}
+                  flipped={false}
                   image="/cards/cover.png"
                 />
               </div>
