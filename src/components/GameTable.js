@@ -1,7 +1,7 @@
-import { useRef, useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../App.css";
 import Card from "../components/Card";
-import ReactCanvasConfetti from "react-canvas-confetti";
+import Confetti from "../components/Confetti";
 
 const cards = {
   1: {
@@ -51,32 +51,6 @@ const cards = {
   },
 };
 
-// Fireworks
-function randomInRange(min, max) {
-  return Math.random() * (max - min) + min;
-}
-const canvasStyles = {
-  position: "fixed",
-  pointerEvents: "none",
-  width: "100%",
-  height: "100%",
-  top: 0,
-  left: 0,
-};
-
-function getAnimationSettings(originXA, originXB) {
-  return {
-    startVelocity: 30,
-    spread: 360,
-    ticks: 60,
-    zIndex: 0,
-    particleCount: 150,
-    origin: {
-      x: randomInRange(originXA, originXB),
-      y: Math.random() - 0.2,
-    },
-  };
-}
 // Function to generate random Cards
 const randomCards = () => {
   const randomCards = [];
@@ -97,39 +71,7 @@ function GameTable({ name }) {
   const [solved, setSolved] = useState([]);
   const [final, setFinal] = useState(false);
   const [disabled, setDisabled] = useState(false);
-
-  // Animation
-  const refAnimationInstance = useRef(null);
-  const [intervalId, setIntervalId] = useState();
-
-  const getInstance = useCallback((instance) => {
-    refAnimationInstance.current = instance;
-  }, []);
-
-  const nextTickAnimation = useCallback(() => {
-    if (refAnimationInstance.current) {
-      refAnimationInstance.current(getAnimationSettings(0.1, 0.3));
-      refAnimationInstance.current(getAnimationSettings(0.7, 0.9));
-    }
-  }, []);
-
-  const startAnimation = useCallback(() => {
-    if (!intervalId) {
-      setIntervalId(setInterval(nextTickAnimation, 400));
-    }
-  }, [intervalId, nextTickAnimation]);
-
-  const stopAnimation = useCallback(() => {
-    clearInterval(intervalId);
-    setIntervalId(null);
-    refAnimationInstance.current && refAnimationInstance.current.reset();
-  }, [intervalId]);
-
-  useEffect(() => {
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [intervalId]);
+  const [startAnimation, setStartAnimation] = useState(false);
 
   // Function to compare if the cards match
   const isMatch = (id) => {
@@ -186,7 +128,7 @@ function GameTable({ name }) {
     setDeck(randomCards());
     setSolved([]);
     setFinal(false);
-    stopAnimation();
+    setStartAnimation(false);
   };
 
   useEffect(() => {
@@ -195,7 +137,7 @@ function GameTable({ name }) {
 
   useEffect(() => {
     if (solved.length === 18) {
-      startAnimation();
+      setStartAnimation(true);
       setFinal(true);
       setDeck((deck) =>
         deck.map((card) => {
@@ -211,9 +153,9 @@ function GameTable({ name }) {
 
     if (solved.length > 0 && solved.length < 18) {
       setDisabled(true);
-      startAnimation();
+      setStartAnimation(true);
       setTimeout(() => {
-        stopAnimation();
+        setStartAnimation(false);
         setDisabled(false);
       }, 2000);
       setDeck((deck) =>
@@ -252,8 +194,7 @@ function GameTable({ name }) {
         <h1 className="text-xl font-bold text-white">{`Cards found: ${ solved.length / 2 }/9`}</h1>
       </div>
       {deck ? (
-        <div className="flex flex-wrap gap-3 gap-y-10 gap justify-center py-5">
-          <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
+        <div className="flex flex-wrap gap-3 gap-y-10 gap justify-center py-5"> 
           {deck.map((card, index) =>
             card.flipped ? (
               <Card
@@ -277,6 +218,7 @@ function GameTable({ name }) {
               </div>
             )
           )}
+          <Confetti start={startAnimation}/>
         </div>
       ) : (
         <h1 className="text-6xl text-black">Loading...</h1>
